@@ -1,5 +1,7 @@
 module NumericalIntegration
+using Plots, ForwardDiff, QuadGK
 
+export Trapezoid, Midpoint, Simpson, numerical_int, error_int, plot_int, integrate, integrate_compare
 
 abstract type IntMethod end
 struct Trapezoid <: IntMethod end
@@ -39,7 +41,7 @@ function numerical_int(::Trapezoid,
     h = (b - a) / n
     x_values = collect((a+h):h:(b-h))
     integral = (f(a) + f(b))
-    for i = 1:length(x_values)-1
+    for i = 1:length(x_values)
         integral += 2 * f(x_values[i])
     end
     return (h / 2) * integral
