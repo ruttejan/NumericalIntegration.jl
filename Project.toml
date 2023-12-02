@@ -1,0 +1,7 @@
+name = "NumericalIntegration"
+uuid = "115453b3-6f51-4751-aee0-5e49c5380674"
+authors = ["ruttejan"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.7"
