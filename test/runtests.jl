@@ -1,6 +1,7 @@
 using NumericalIntegration
 using Test
 
+
 @testset "NumericalIntegration.jl" begin
     @testset "numerical_int()" begin
         f(x) = -x^2 + 1
@@ -17,9 +18,11 @@ using Test
         a = -1
         b = 1
         n = 2
-        @test false
-        @test false
-        @test false
+        @test error_int(Midpoint(), f, a, b, n) == 1/6
+        @test error_int(Trapezoid(), f, a, b, n) == 1/3
+        @test error_int(Simpson(), f, a, b, n) == 0
+        f2(x) = x^5
+        @test error_int(Simpson(), f2, a, b, n) == 4/3
     end
 
     @testset "integrate @ integrate_compare" begin
