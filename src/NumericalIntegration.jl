@@ -37,13 +37,11 @@ function numerical_int(::Trapezoid,
     a::Real,
     b::Real,
     n::Int
-)
+)   
     h = (b - a) / n
     x_values = collect((a+h):h:(b-h))
-    integral = (f(a) + f(b))
-    for i = eachindex(x_values)
-        integral += 2 * f(x_values[i])
-    end
+    integral = sum((f.(x_values)) .* 2)
+    integral += f(a) + f(b)
     return (h / 2) * integral
 end
 
@@ -141,10 +139,7 @@ function numerical_int(::Midpoint,
 )
     h = (b - a) / n
     x_values = collect(a:h:b)
-    integral = 0
-    for i = 2:n
-        integral += f((x_values[i-1] + x_values[i]) / 2)
-    end
+    integral = sum(f.((x_values[1:n-1] + x_values[2:n]) / 2))
     return h * integral
 end
 
@@ -207,13 +202,11 @@ function numerical_int(::Simpson,
     x_edge = collect((a+h):h:(b-h))
     x_mids = collect((a+h2):h:(b-h/2))
     integral = f(a) + f(b)
-    for i in eachindex(x_edge)
-        integral += 2 * f(x_edge[i])
-    end
+    
+    integral += sum(f.(x_edge)) .* 2
 
-    for i in eachindex(x_mids)
-        integral += 4 * f(x_mids[i])
-    end
+    integral += sum(f.(x_mids)) .* 4
+    
     return integral * (h / 6)
 end
 
